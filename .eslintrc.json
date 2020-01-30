@@ -10,14 +10,20 @@
     "plugin:react/recommended",
     "plugin:testing-library/recommended",
     "plugin:testing-library/react",
-    "react-app"
+    "react-app",
+
+    "prettier",
+    "prettier/react",
+    "prettier/standard"
   ],
   "plugins": [
     "babel",
     "import",
     "jsx-a11y",
     "react",
-    "testing-library"
+    "testing-library",
+
+    "prettier"
   ],
   "globals": {
     "Atomics": "readonly",
