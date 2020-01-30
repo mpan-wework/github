@@ -14,6 +14,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "postbuild": "rm -rf dist && mv build dist",
+    "lint": "eslint src --ext .js --ext .jsx",
     "test": "react-scripts test"
   },
   "eslintConfig": {
@@ -32,6 +33,14 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-testing-library": "^2.0.0",
+    "prettier": "^1.19.1",
     "typescript": "^3.7.5"
   }
 }
