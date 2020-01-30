@@ -1,9 +1,22 @@
 import React from 'react';
+import Blob from './Blob';
+import NavBar from './NavBar';
+import Path from './Path';
+import SideBar from './SideBar';
+import styles from './Github.module.scss';
 
-// eslint-disable-next-line arrow-body-style
 const Github = () => {
   return (
-    <div>Github</div>
+    <div className={styles.Github}>
+      <div className={styles.sidebarWrapper}>
+        <SideBar />
+      </div>
+      <div className={styles.contentWrapper}>
+        <NavBar />
+        <Path />
+        <Blob />
+      </div>
+    </div>
   );
 };
 

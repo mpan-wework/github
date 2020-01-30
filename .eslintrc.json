@@ -39,5 +39,7 @@
   "settings": {
     "import/extensions": [".js", ".jsx"]
   },
-  "rules": {}
+  "rules": {
+    "react/prop-types": ["off"]
+  }
 }
