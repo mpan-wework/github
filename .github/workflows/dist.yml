@@ -1,0 +1,27 @@
+name: dist
+on:
+  push:
+    tags:
+    - '*'
+jobs:
+  dist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - run: npm install --silent
+      - run: npm run build
+      - name: Commit files
+        run: |
+          git config --local user.name 'bot'
+          git config --local user.email '<>'
+          git add -f dist
+          git commit -m 'dist' --allow-empty
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
