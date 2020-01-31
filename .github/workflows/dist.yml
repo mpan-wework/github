@@ -23,7 +23,7 @@ jobs:
           build_dir: dist
           committer_name: bot
           committer_email: <>
-          commit_message: ${{ env.GITHUB_SHA }}
+          commit_message: ${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
