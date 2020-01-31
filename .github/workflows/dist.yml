@@ -14,14 +14,10 @@ jobs:
           node-version: 10.x
       - run: npm install --silent
       - run: npm run build
-      - name: Commit files
-        run: |
-          git config --local user.name 'bot'
-          git config --local user.email '<>'
-          git add -f dist
-          git commit -m 'dist' --allow-empty
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist
 
