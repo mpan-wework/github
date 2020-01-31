@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import store from '../../utils/store';
-import githubClient from '../../service/api/github';
+import store from '../../../utils/store';
+import githubClient from '../../../service/api/github';
 import styles from './Container.module.scss';
 
 const Container = (props) => {

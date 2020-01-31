@@ -1,5 +1,5 @@
 import React from 'react';
-import Github from './components/Github';
+import Github from './views/Github';
 
 const App = () => <Github />;
 

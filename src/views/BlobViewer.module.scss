@@ -1,9 +1,11 @@
-.Github {
+@import '../theme.scss';
+
+.BlobViewer {
   width: 100vw;
   height: 100vh;
   display: flex;
-  background-color: #24292e;
-  color: #4af626;
+  background-color: $back-color;
+  color: $fore-color;
 }
 
 .sidebarWrapper {
