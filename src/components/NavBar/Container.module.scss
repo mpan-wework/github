@@ -1,0 +1,41 @@
+@import '../../theme.scss';
+
+@media only screen and (max-width: 600px) {
+  .Container {
+    height: auto !important;
+    flex-direction: column;
+  }
+}
+
+.Container {
+  height: 3rem;
+  padding: 0.25rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: 1px solid white;
+}
+
+.tokenInput {
+  height: 1.25rem;
+  line-height: 1.25rem;
+  width: 18rem;
+  text-align: center;
+  margin-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.owner,
+.logout,
+.login {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.compButton {
+  border: 1px solid $fore-color;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
