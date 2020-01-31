@@ -1,10 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import routes from './routes';
 
 const Github = () => {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Switch>
         {routes.map((route) => (
           <Route
@@ -15,7 +15,7 @@ const Github = () => {
         ))}
         <Redirect from="*" to="/blob-viewer/"/>
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
