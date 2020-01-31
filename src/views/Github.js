@@ -4,7 +4,7 @@ import routes from './routes';
 
 const Github = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         {routes.map((route) => (
           <Route
