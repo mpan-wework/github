@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
-import Blob from './Blob';
-import NavBar from './NavBar/Container';
-import Path from './Path';
-import SideBar from './SideBar';
+import Blob from '../components/BlobViewer/Blob/Blob';
+import NavBar from '../components/BlobViewer/NavBar/Container';
+import Path from '../components/BlobViewer/Path/Path';
+import SideBar from '../components/BlobViewer/SideBar/SideBar';
 import githubClient from '../service/api/github';
-import styles from './Github.module.scss';
+import styles from './BlobViewer.module.scss';
 
-const Github = () => {
+const BlobViewer = () => {
   const fetchData = useCallback(
     async () => {
       const orgs = githubClient.orgs();
@@ -15,7 +15,7 @@ const Github = () => {
     [],
   )
   return (
-    <div className={styles.Github}>
+    <div className={styles.BlobViewer}>
       <div className={styles.sidebarWrapper}>
         <SideBar />
       </div>
@@ -28,4 +28,4 @@ const Github = () => {
   );
 };
 
-export default Github;
+export default BlobViewer;
