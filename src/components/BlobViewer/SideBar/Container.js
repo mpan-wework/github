@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
-import styles from './SideBar.module.scss';
+import styles from './Container.module.scss';
 
-const SideBar = (props) => {
+const Container = (props) => {
   const { blobs, path, fetchBlob } = props;
 
   const onBlobClick = useCallback(
@@ -15,10 +15,10 @@ const SideBar = (props) => {
   );
 
   return (
-    <div className={styles.SideBar}>
+    <div className={styles.Container}>
       <div onClick={onBlobClick}>SideBar</div>
     </div>
   );
 };
 
-export default SideBar;
+export default Container;

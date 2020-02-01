@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import Blob from '../components/BlobViewer/Blob/Blob';
+import Blob from '../components/BlobViewer/Blob/Container';
 import NavBar from '../components/BlobViewer/NavBar/Container';
-import Path from '../components/BlobViewer/Path/Path';
-import SideBar from '../components/BlobViewer/SideBar/SideBar';
+import Path from '../components/BlobViewer/Path/Container';
+import SideBar from '../components/BlobViewer/SideBar/Container';
 import githubClient from '../service/api/github';
 import styles from './BlobViewer.module.scss';
 
