@@ -1,4 +1,15 @@
 .Path {
-  height: 2rem;
+  min-height: 2rem;
   border-bottom: 1px solid white;
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+
+  > div:last-child {
+    display: none;
+  }
+}
+
+.dir, .slash {
+  margin-right: 0.5rem;
 }

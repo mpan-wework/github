@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './Path.module.scss';
 
-const Path = () => {
+const Path = (props) => {
+  const { path } = props;
+
+  const dirs = useMemo(
+    () => path.split('/'),
+    [path],
+  );
+
   return (
     <div className={styles.Path}>
-      A / B / C
+      {dirs.map((dir, i) => (
+        <React.Fragment key={`${i}${dir}`}>
+          <div className={styles.dir}>{dir}</div>
+          <div className={styles.slash}>&#47;</div>
+        </React.Fragment>
+      ))}
     </div>
   );
 };
