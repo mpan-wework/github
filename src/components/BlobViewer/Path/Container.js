@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import styles from './Path.module.scss';
+import styles from './Container.module.scss';
 
-const Path = (props) => {
+const Container = (props) => {
   const { path } = props;
 
   const dirs = useMemo(
@@ -10,7 +10,7 @@ const Path = (props) => {
   );
 
   return (
-    <div className={styles.Path}>
+    <div className={styles.Container}>
       {dirs.map((dir, i) => (
         <React.Fragment key={`${i}${dir}`}>
           <div className={styles.dir}>{dir}</div>
@@ -21,4 +21,4 @@ const Path = (props) => {
   );
 };
 
-export default Path;
+export default Container;
