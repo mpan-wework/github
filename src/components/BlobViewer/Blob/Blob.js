@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from './Blob.module.scss';
 
-const Blob = ({ blob }) => {
+const Blob = (props) => {
+  const { blob } = props;
+
   return (
     <main className={styles.Blob}>
-      Blob:{JSON.stringify(blob || {})}
+      <pre>
+        {window.atob(blob.content || 'aGVsbG8gd29ybGQ=')}
+      </pre>
     </main>
   );
 };
