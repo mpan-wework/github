@@ -21,20 +21,26 @@ const Container = (props) => {
     [blob, setCode],
   );
 
-  if (!codeMirror.current && textArea.current) {
-    codeMirror.current = CodeMirror.fromTextArea(
-      textArea.current,
-      {
-        mode: 'javascript',
-        theme: 'the-matrix',
-        smartIndent: true,
-        lineWrapping: true,
-        lineNumbers: true,
-        readOnly: true,
-        autofocus: true,
-      },
-    );
-  }
+  useEffect(
+    () => {
+      if (codeMirror.current && !textArea.current) {
+        return;
+      }
+      codeMirror.current = CodeMirror.fromTextArea(
+        textArea.current,
+        {
+          mode: 'javascript',
+          theme: 'the-matrix',
+          smartIndent: true,
+          lineWrapping: true,
+          lineNumbers: true,
+          readOnly: true,
+          autofocus: true,
+        },
+      );
+    },
+    [textArea],
+  );
 
   useEffect(
     () => {
@@ -47,7 +53,7 @@ const Container = (props) => {
     <main className={styles.Container}>
       <div onClick={resetCode}>Reset</div>
       <div className={styles.CodeMirror}>
-        <textarea ref={textArea} />
+        <textarea className={styles.textArea} ref={textArea} />
       </div>
     </main>
   );
