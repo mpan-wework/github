@@ -18,7 +18,7 @@ const Container = (props) => {
         let parentPath = null;
         const pos = blob.path.lastIndexOf('/');
         if (pos === -1) {
-          parentPath = '';
+          parentPath = '/';
         } else {
           parentPath = blob.path.slice(0, pos)
         }
