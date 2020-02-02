@@ -47,6 +47,14 @@
     "jsx-a11y/no-static-element-interactions": [
       "off"
     ],
+    "max-lines": [
+      "warn",
+      {
+        "max": 150,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
     "no-console": [
       "error",
       {

@@ -1,58 +1,32 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import CodeMirror from 'codemirror';
+import React, { useEffect, useRef } from 'react';
 import styles from './Container.module.scss';
+import useCodeMirror from './useCodeMirror';
 
 const Container = (props) => {
   const { blob } = props;
 
-  const codeMirror = useRef(null);
   const textArea = useRef(null);
 
-  const [code, setCode] = useState('');
-
-  const resetCode = useCallback(
-    () => {
-      if (blob.content) {
-        setCode(window.atob(blob.content));
-      } else {
-        setCode('mike');
-      }
-    },
-    [blob, setCode],
-  );
+  const [{ codeMirrorRef }] = useCodeMirror({ textArea });
 
   useEffect(
     () => {
-      if (codeMirror.current && !textArea.current) {
+      if (blob.type !== 'blob') {
         return;
       }
-      codeMirror.current = CodeMirror.fromTextArea(
-        textArea.current,
-        {
-          mode: 'javascript',
-          theme: 'the-matrix',
-          smartIndent: true,
-          lineWrapping: true,
-          lineNumbers: true,
-          readOnly: true,
-          autofocus: true,
-        },
-      );
-    },
-    [textArea],
-  );
 
-  useEffect(
-    () => {
-      codeMirror.current && codeMirror.current.getDoc().setValue(code);
+      const code = window.atob(blob.content);
+      codeMirrorRef.current && codeMirrorRef.current.getDoc().setValue(code);
     },
-    [codeMirror, code],
+    [codeMirrorRef, blob],
   );
 
   return (
     <main className={styles.Container}>
-      <div onClick={resetCode}>Reset</div>
-      <div className={styles.CodeMirror}>
+      <div
+        className={styles.CodeMirror}
+        style={blob.type === 'blob' ? {} : { display: 'none'}}
+      >
         <textarea className={styles.textArea} ref={textArea} />
       </div>
     </main>
