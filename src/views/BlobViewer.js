@@ -11,7 +11,6 @@ const BlobViewer = () => {
   const [repo] = useState('github');
   const [branch] = useState('master');
   const [blobs, setBlobs] = useState([]);
-  const [path] = useState('src/components/BlobViewer/Blob/Blob.js');
   const [blob, setBlob] = useState({});
 
   const fetchTree = useCallback(
@@ -30,26 +29,34 @@ const BlobViewer = () => {
     [fetchTree],
   );
 
-  const fetchBlob = useCallback(
-    async (blobUrl) => {
-      const data = await githubClient.blob(blobUrl);
-      setBlob(data);
+  const visitPath = useCallback(
+    async (path) => {
+      const pathBlob = blobs.find((b) => b.path === path);
+      if (pathBlob) {
+        const data = await githubClient.blob(pathBlob.url);
+        setBlob({ ...data, path })
+      } else {
+        setBlob({})
+      }
     },
-    [],
-  )
+    [blobs, setBlob],
+  );
 
   return (
     <div className={styles.BlobViewer}>
       <div className={styles.sidebarWrapper}>
         <SideBar
           blobs={blobs}
-          fetchBlob={fetchBlob}
-          path={path}
+          blob={blob}
+          visitPath={visitPath}
         />
       </div>
       <div className={styles.contentWrapper}>
         <NavBar fetchData={fetchData} />
-        <Path path={path} />
+        <Path
+          path={blob.path || ''}
+          visitPath={visitPath}
+        />
         <Blob blob={blob} />
       </div>
     </div>
