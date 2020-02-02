@@ -1,39 +1,21 @@
-import React, { useCallback, useState } from 'react';
-import store from '../../../utils/store';
-import githubClient from '../../../service/api/github';
+import React from 'react';
 import styles from './Container.module.scss';
+import useLogin from './useLogin';
 
 const Container = (props) => {
   const { fetchData } = props;
 
-  const [owner, setOwner] = useState(null);
-  const [token, setToken] = useState(store.getItem('token', ''));
-
-  const tokenChange = useCallback(
-    (e) => {
-      setToken(e.target.value);
+  const [
+    {
+      owner,
+      token,
     },
-    [setToken],
-  );
-
-  const login = useCallback(
-    async () => {
-      const user = await githubClient.user(token);
-      if (user) {
-        store.setItem('token', token);
-        setOwner(user);
-        setTimeout(fetchData, 0);
-      }
+    {
+      handleTokenChange,
+      login,
+      logout,
     },
-    [token, setOwner, fetchData],
-  );
-
-  const logout = useCallback(
-    () => {
-      setOwner(null);
-    },
-    [setOwner],
-  );
+  ] = useLogin({ loginCallback: fetchData });
 
   return (
     <div className={styles.Container}>
@@ -42,7 +24,7 @@ const Container = (props) => {
         type="text"
         placeholder="Personal Access Token"
         disabled={owner !== null}
-        onChange={tokenChange}
+        onChange={handleTokenChange}
         value={token}
       />
       {owner

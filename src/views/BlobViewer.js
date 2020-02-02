@@ -6,12 +6,19 @@ import SideBar from '../components/BlobViewer/SideBar/Container';
 import githubClient from '../service/api/github';
 import styles from './BlobViewer.module.scss';
 
+const defaultBlob = {
+  path: '/',
+  name: '/',
+  subs: [],
+  depth: 0,
+};
+
 const BlobViewer = () => {
   const [owner] = useState('mpan-wework');
   const [repo] = useState('github');
   const [branch] = useState('master');
   const [blobs, setBlobs] = useState([]);
-  const [blob, setBlob] = useState({});
+  const [blob, setBlob] = useState(defaultBlob);
 
   const fetchTree = useCallback(
     async () => {
@@ -34,9 +41,9 @@ const BlobViewer = () => {
       const pathBlob = blobs.find((b) => b.path === path);
       if (pathBlob) {
         const data = await githubClient.blob(pathBlob.url);
-        setBlob({ ...data, path })
+        setBlob({ ...pathBlob, ...data, path })
       } else {
-        setBlob({})
+        setBlob(defaultBlob)
       }
     },
     [blobs, setBlob],
