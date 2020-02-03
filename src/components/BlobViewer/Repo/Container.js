@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import AsyncSelect from 'react-select/async';
-import styles from './Container.module.scss';
+import Select from 'react-select/async';
 import useFindRepo from './useFindRepo';
+import useReactSelectStyle from './useReactSelectStyle';
+import styles from './Container.module.scss';
 
 const Container = (props) => {
   const { user, onRepoInfoChange } = props;
@@ -9,8 +10,10 @@ const Container = (props) => {
   const [
     {
       owner,
+      ownerOptions,
       repo,
       branch,
+      branchOptions,
     },
     {
       loadOwnerOptions,
@@ -38,25 +41,35 @@ const Container = (props) => {
     [onRepoInfoChange, owner, repo, branch],
   );
 
+  const [styleProps] = useReactSelectStyle();
+
   return (
     <div className={styles.Container}>
-      <AsyncSelect
+      <Select
         className={styles.ReactSelect}
         value={owner}
+        defaultOptions={ownerOptions}
         loadOptions={loadOwnerOptions}
         onChange={handleOwnerChange}
+        placeholder="User / Organization"
+        {...styleProps}
       />
-      <AsyncSelect
+      <Select
         className={styles.ReactSelect}
         value={repo}
         loadOptions={loadRepoOptions}
         onChange={handleRepoChange}
+        placeholder="Repo"
+        {...styleProps}
       />
-      <AsyncSelect
+      <Select
         className={styles.ReactSelect}
         value={branch}
+        defaultOptions={branchOptions}
         loadOptions={loadBranchOptions}
         onChange={handleBranchChange}
+        placeholder="Branch"
+        {...styleProps}
       />
     </div>
   );
