@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import styles from './TreeNode.module.scss';
 
 const TreeNode = (props) => {
-  const { tree, blob, visitPath } = props;
+  const { tree, currentPath, visitPath, className } = props;
 
   const onBlobClick = useCallback(
     () => visitPath(tree.path),
@@ -10,19 +10,20 @@ const TreeNode = (props) => {
   );
 
   const isCurrent = useMemo(
-    () => blob.path.indexOf(tree.path) === -1,
-    [blob, tree],
+    () => currentPath.indexOf(tree.path) === -1,
+    [currentPath, tree],
   );
 
   return (
     <>
       <div
         className={[
+          className,
           styles.TreeNode,
           isCurrent ? '':  styles.current,
         ].join(' ')}
         onClick={onBlobClick}
-        style={{paddingLeft: `${0.5 * tree.depth}rem`}}
+        style={{paddingLeft: `${tree.depth}rem`}}
       >
         {tree.name}
       </div>
@@ -30,7 +31,7 @@ const TreeNode = (props) => {
         <TreeNode
           key={sub.path}
           tree={sub}
-          blob={blob}
+          currentPath={currentPath}
           visitPath={visitPath}
         />
       ))}

@@ -3,7 +3,7 @@ import styles from './Container.module.scss';
 import useLogin from './useLogin';
 
 const Container = (props) => {
-  const { fetchData } = props;
+  const { loginCallback } = props;
 
   const [
     {
@@ -15,7 +15,7 @@ const Container = (props) => {
       login,
       logout,
     },
-  ] = useLogin({ loginCallback: fetchData });
+  ] = useLogin({ loginCallback });
 
   return (
     <div className={styles.Container}>

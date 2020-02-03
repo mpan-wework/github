@@ -38,11 +38,33 @@ const createGithubClient = () => {
     return get(blobUrl);
   };
 
+  const branches = async (owner, repo) => {
+    return get(`/repos/${owner}/${repo}/branches`);
+  }
+
+  const searchQuery = (keywords = [], scopes = []) => {
+    return [...keywords, ...scopes].join('+');
+  };
+
+  const qrepos = async (keyword, scope) => {
+    const q = searchQuery(
+      [keyword],
+      [
+        'in:name',
+        scope.org
+          ? `org:${scope.org}`
+          : `user:${scope.user}`,
+      ]);
+    return get(`/search/repositories?q=${q}`);
+  };
+
   return {
     user,
     orgs,
     tree,
     blob,
+    branches,
+    qrepos,
   };
 };
 

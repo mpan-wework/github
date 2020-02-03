@@ -1,13 +1,27 @@
 import React, { useEffect, useRef } from 'react';
+import fileType from 'file-type';
 import styles from './Container.module.scss';
+import useAsyncMemo from '../../shared/useAsyncMemo';
 import useCodeMirror from './useCodeMirror';
 
 const Container = (props) => {
-  const { blob } = props;
+  const { blob = {} } = props;
 
   const textArea = useRef(null);
 
   const [{ codeMirrorRef }] = useCodeMirror({ textArea });
+
+  const mimeType = useAsyncMemo(
+    async () => {
+      if (!blob.content) {
+        return null;
+      }
+
+      return fileType.fromBuffer(Buffer.from(blob.content, 'base64'));
+    },
+    [blob],
+    null,
+  );
 
   useEffect(
     () => {
@@ -23,9 +37,10 @@ const Container = (props) => {
 
   return (
     <main className={styles.Container}>
+      <div>{JSON.stringify(mimeType)}</div>
       <div
         className={styles.CodeMirror}
-        style={blob.type === 'blob' ? {} : { display: 'none'}}
+        style={blob.type === 'blob' && !mimeType ? {} : { display: 'none'}}
       >
         <textarea className={styles.textArea} ref={textArea} />
       </div>
