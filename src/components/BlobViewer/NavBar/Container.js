@@ -40,12 +40,21 @@ const Container = (props) => {
           </>
         )
         : (
-          <div
-            className={[styles.login, styles.compButton].join(' ')}
-            onClick={login}
-          >
-            Log In
-          </div>
+          <>
+            <a
+              className={styles.tutorial}
+              href="https://github.com/settings/tokens"target="_blank"
+              rel="noopener noreferrer"
+            >
+              Create Token
+            </a>
+            <div
+              className={[styles.login, styles.compButton].join(' ')}
+              onClick={login}
+            >
+              Log In
+            </div>
+          </>
         )}
     </div>
   );
