@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import githubClient from '../../../service/api/github';
+import useAsyncMemo from '../../shared/useAsyncMemo';
 
 const useFindRepo = (props) => {
   const { user } = props;
@@ -8,29 +9,46 @@ const useFindRepo = (props) => {
   const [repo, setRepo] = useState(null);
   const [branch, setBranch] = useState(null);
 
-  const loadOwnerOptions = useCallback(
-    async (inputValue) => {
+  useEffect(
+    () => {
+      if (!user) {
+        setOwner(null);
+        setRepo(null);
+        setBranch(null);
+      }
+    },
+    [user],
+  );
+
+  const ownerOptions = useAsyncMemo(
+    async () => {
       if (!user) {
         return [];
       }
 
       const orgs = await githubClient.orgs();
-      return [user]
-        .concat(orgs)
-        .filter(
-          (ownerItem) =>
-            inputValue.trim() === '' ||
-            ownerItem.login.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-        )
-        .map(
-          (ownerItem) => ({
-            label: ownerItem.login,
-            value: ownerItem.login,
-            data: ownerItem,
-          }),
-        );
+
+      return [user].concat(orgs).map(
+        (ownerItem) => ({
+          label: ownerItem.login,
+          value: ownerItem.login.toLowerCase(),
+          data: ownerItem,
+        }),
+      );
     },
     [user],
+    [],
+  );
+
+  const loadOwnerOptions = useCallback(
+    async (inputValue) => {
+      return ownerOptions.filter(
+        (ownerItem) =>
+          inputValue.trim() === '' ||
+          ownerItem.value.indexOf(inputValue.toLowerCase()) > -1
+      );
+    },
+    [ownerOptions],
   );
 
   const handleOwnerChange = useCallback(
@@ -70,36 +88,42 @@ const useFindRepo = (props) => {
     [],
   );
 
-  const loadBranchOptions = useCallback(
-    async (inputValue) => {
+  const branchOptions = useAsyncMemo(
+    async () => {
       if (!owner || !repo) {
         return [];
       }
 
       const branches = await githubClient.branches(owner.data.login, repo.data.name);
-
-      return branches
-        .filter(
-          (branchItem) =>
-            inputValue.trim() === '' ||
-            branchItem.name.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-          )
-        .map(
-          (branchItem) => ({
-            label: branchItem.name,
-            value: branchItem.name,
-            data: branchItem,
-          }),
-        );
+      return branches.map(
+        (branchItem) => ({
+          label: branchItem.name,
+          value: branchItem.name.toLowerCase(),
+          data: branchItem,
+        }),
+      );
     },
     [owner, repo],
+  );
+
+  const loadBranchOptions = useCallback(
+    async (inputValue) => {
+      return branchOptions.filter(
+        (branchItem) =>
+          inputValue.trim() === '' ||
+          branchItem.value.indexOf(inputValue.toLowerCase()) > -1
+      );
+    },
+    [branchOptions],
   );
 
   return [
     {
       owner,
+      ownerOptions,
       repo,
       branch,
+      branchOptions,
     },
     {
       loadOwnerOptions,

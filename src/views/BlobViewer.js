@@ -17,29 +17,32 @@ const BlobViewer = () => {
   const [tree, setTree] = useState({ tree: [] });
   const [blob, setBlob] = useState(undefined);
 
-  const fetchTree = useCallback(
-    async () => {
-      if (repoInfo) {
-        const data = await githubClient.tree(
-          repoInfo.owner.value,
-          repoInfo.repo.value,
-          repoInfo.branch.value,
-        );
-        setTree(data);
-      } else {
+  useEffect(
+    () => {
+      if (!user) {
+        setRepoInfo(null);
         setTree({ tree: [] });
+        setBlob(undefined);
       }
     },
-    [repoInfo, setTree],
+    [user],
   );
 
   useEffect(
     () => {
-      if (user) {
-        fetchTree();
-      }
+      const fn = async () => {
+        if (repoInfo) {
+          const data = await githubClient.tree(
+            repoInfo.owner.value,
+            repoInfo.repo.value,
+            repoInfo.branch.value,
+          );
+          setTree(data);
+        }
+      };
+      fn();
     },
-    [user, fetchTree],
+    [repoInfo],
   );
 
   const visitPath = useCallback(
@@ -52,7 +55,7 @@ const BlobViewer = () => {
         setBlob(undefined)
       }
     },
-    [tree, setBlob],
+    [tree],
   );
 
   return (

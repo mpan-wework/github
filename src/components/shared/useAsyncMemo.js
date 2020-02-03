@@ -7,7 +7,8 @@ const useAsyncMemo = (fn, deps = [], init = null) => {
     () => {
       Promise.resolve().then(fn).then(setMemo);
     },
-    [fn, deps, setMemo],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    deps,
   );
 
   return memo;
