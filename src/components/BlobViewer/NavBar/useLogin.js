@@ -21,7 +21,7 @@ const useLogin = (props) => {
       if (user) {
         store.setItem('token', token);
         setOwner(user);
-        setTimeout(loginCallback, 0);
+        setTimeout(() => loginCallback(user), 0);
       }
     },
     [token, setOwner, loginCallback],
@@ -30,8 +30,9 @@ const useLogin = (props) => {
   const logout = useCallback(
     () => {
       setOwner(null);
+      setTimeout(() => loginCallback(null), 0);
     },
-    [setOwner],
+    [setOwner, loginCallback],
   );
 
   return [

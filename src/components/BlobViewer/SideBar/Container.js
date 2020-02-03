@@ -4,15 +4,16 @@ import styles from './Container.module.scss';
 import useBlobTree from './useBlobTree';
 
 const Container = (props) => {
-  const { blobs, blob, visitPath } = props;
+  const { tree, currentPath, visitPath } = props;
 
-  const [{ blobTree }] = useBlobTree({ blobs });
+  const [{ blobTree }] = useBlobTree({ blobs: tree.tree });
 
   return (
     <div className={styles.Container}>
       <TreeNode
+        className={styles.current}
         tree={blobTree}
-        blob={blob}
+        currentPath={currentPath}
         visitPath={visitPath}
       />
     </div>
