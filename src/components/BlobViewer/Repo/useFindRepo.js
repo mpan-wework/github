@@ -33,6 +33,15 @@ const useFindRepo = (props) => {
     [user],
   );
 
+  const handleOwnerChange = useCallback(
+    (value) => {
+      setOwner(value);
+      setRepo(null);
+      setBranch(null);
+    },
+    [],
+  );
+
   const loadRepoOptions = useCallback(
     async (inputValue) => {
       if (!owner) {
@@ -51,6 +60,14 @@ const useFindRepo = (props) => {
       }));
     },
     [owner],
+  );
+
+  const handleRepoChange = useCallback(
+    (value) => {
+      setRepo(value);
+      setBranch(null);
+    },
+    [],
   );
 
   const loadBranchOptions = useCallback(
@@ -86,9 +103,9 @@ const useFindRepo = (props) => {
     },
     {
       loadOwnerOptions,
-      handleOwnerChange: setOwner,
+      handleOwnerChange,
       loadRepoOptions,
-      handleRepoChange: setRepo,
+      handleRepoChange,
       loadBranchOptions,
       handleBranchChange: setBranch,
     },
