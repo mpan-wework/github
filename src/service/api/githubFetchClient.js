@@ -35,12 +35,42 @@ const createGithubFetchClient = () => {
   const branches = async (owner, repo) =>
     get(`/repos/${owner}/${repo}/branches`);
 
+  const _searchQuery = (keywords = [], scopes = []) => {
+    return [...keywords, ...scopes].join('+');
+  };
+
+  const qOwners = async (keyword) => {
+    const q = _searchQuery(
+      [keyword],
+      [
+        'in:login',
+        'type:user',
+        'type:org',
+      ],
+    );
+    return get(`/search/users?q=${q}`);
+  };
+
+  const qRepos = async (keyword, scope) => {
+    const q = _searchQuery(
+      [keyword],
+      [
+        'in:name',
+        scope.org
+          ? `org:${scope.org}`
+          : `user:${scope.user}`,
+      ]);
+    return get(`/search/repositories?q=${q}`);
+  };
+
   return {
     get,
     user,
     orgs,
     tree,
     branches,
+    qOwners,
+    qRepos,
   };
 };
 

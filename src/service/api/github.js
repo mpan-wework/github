@@ -12,25 +12,11 @@ const createGithubClient = () => {
     orgs,
     tree,
     branches,
+    qOwners,
+    qRepos,
   } = _githubFetchClient;
 
   const blob = async (blobUrl) => get(blobUrl);
-
-  const _searchQuery = (keywords = [], scopes = []) => {
-    return [...keywords, ...scopes].join('+');
-  };
-
-  const qrepos = async (keyword, scope) => {
-    const q = _searchQuery(
-      [keyword],
-      [
-        'in:name',
-        scope.org
-          ? `org:${scope.org}`
-          : `user:${scope.user}`,
-      ]);
-    return get(`/search/repositories?q=${q}`);
-  };
 
   return {
     user,
@@ -38,7 +24,8 @@ const createGithubClient = () => {
     tree,
     blob,
     branches,
-    qrepos,
+    qOwners,
+    qRepos,
   };
 };
 
