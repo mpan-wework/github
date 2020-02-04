@@ -8,8 +8,7 @@
 }
 
 .Container {
-  height: 3rem;
-  padding: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -41,6 +40,7 @@
   border: 1px solid $fore-color;
   padding: 0.5rem;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .tutorial {

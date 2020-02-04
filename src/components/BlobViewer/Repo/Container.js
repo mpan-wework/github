@@ -4,7 +4,7 @@ import useFindRepo from './useFindRepo';
 import useReactSelectStyle from './useReactSelectStyle';
 import styles from './Container.module.scss';
 
-const Container = (props) => {
+const Repo = (props) => {
   const { user, onRepoInfoChange } = props;
 
   const [
@@ -75,4 +75,4 @@ const Container = (props) => {
   );
 };
 
-export default Container;
+export default Repo;

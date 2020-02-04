@@ -10,49 +10,50 @@ import Path from '../components/BlobViewer/Path/Container';
 import SideBar from '../components/BlobViewer/SideBar/Container';
 import githubClient from '../service/api/github';
 import styles from './BlobViewer.module.scss';
+import useAsyncEffect from '../components/shared/useAsyncEffect';
 
 const BlobViewer = () => {
   const [user, setUser] = useState(null);
   const [repoInfo, setRepoInfo] = useState(null);
-  const [tree, setTree] = useState({ tree: [] });
+  const [tree, setTree] = useState(null);
   const [blob, setBlob] = useState(undefined);
 
   useEffect(
     () => {
       if (!user) {
         setRepoInfo(null);
-        setTree({ tree: [] });
+        setTree(null);
         setBlob(undefined);
       }
     },
     [user],
   );
 
-  useEffect(
-    () => {
-      const fn = async () => {
-        if (repoInfo) {
-          const data = await githubClient.tree(
-            repoInfo.owner.value,
-            repoInfo.repo.value,
-            repoInfo.branch.value,
-          );
-          setTree(data);
-        }
-      };
-      fn();
+  useAsyncEffect(
+    async () => {
+      if (repoInfo) {
+        const data = await githubClient.tree(
+          repoInfo.owner.value,
+          repoInfo.repo.value,
+          repoInfo.branch.value,
+        );
+        setTree(data);
+      }
     },
     [repoInfo],
   );
 
   const visitPath = useCallback(
-    async (path) => {
-      const pathBlob = tree.tree.find((b) => b.path === path);
-      if (pathBlob) {
-        const data = await githubClient.blob(pathBlob.url);
-        setBlob({ ...pathBlob, ...data, path })
+    (path) => {
+      if (tree) {
+        const pathBlob = tree.tree.find((b) => b.path === path);
+        if (pathBlob) {
+          setBlob({ ...pathBlob, path });
+        } else {
+          setBlob(undefined);
+        }
       } else {
-        setBlob(undefined)
+        setBlob(undefined);
       }
     },
     [tree],
@@ -63,7 +64,7 @@ const BlobViewer = () => {
       <div className={styles.sidebarWrapper}>
         <SideBar
           tree={tree}
-          currentPath={blob ? blob.path : '/'}
+          blob={blob}
           visitPath={visitPath}
         />
       </div>
@@ -76,7 +77,7 @@ const BlobViewer = () => {
           onRepoInfoChange={setRepoInfo}
         />
         <Path
-          path={blob ? blob.path : '/'}
+          path={blob ? blob.path : ''}
           visitPath={visitPath}
         />
         <Blob blob={blob} />

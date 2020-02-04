@@ -4,7 +4,7 @@ import styles from './Container.module.scss';
 import useAsyncMemo from '../../shared/useAsyncMemo';
 import useCodeMirror from './useCodeMirror';
 
-const Container = (props) => {
+const Blob = (props) => {
   const { blob = {} } = props;
 
   const textArea = useRef(null);
@@ -25,7 +25,7 @@ const Container = (props) => {
 
   useEffect(
     () => {
-      if (blob.type !== 'blob') {
+      if (blob.type !== 'blob' || !blob.content) {
         return;
       }
 
@@ -48,4 +48,4 @@ const Container = (props) => {
   );
 };
 
-export default Container;
+export default Blob;

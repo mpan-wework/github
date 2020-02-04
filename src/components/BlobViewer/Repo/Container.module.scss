@@ -1,10 +1,9 @@
 .Container {
-  min-height: 2rem;
   border-bottom: 1px solid white;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .ReactSelect {

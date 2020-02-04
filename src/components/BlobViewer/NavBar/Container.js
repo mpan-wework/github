@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Container.module.scss';
 import useLogin from './useLogin';
 
-const Container = (props) => {
+const NavBar = (props) => {
   const { loginCallback } = props;
 
   const [
@@ -60,4 +60,4 @@ const Container = (props) => {
   );
 };
 
-export default Container;
+export default NavBar;

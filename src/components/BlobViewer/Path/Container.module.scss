@@ -1,15 +1,11 @@
 .Container {
-  min-height: 2rem;
   border-bottom: 1px solid white;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   flex-wrap: wrap;
-
-  > div:last-child {
-    display: none;
-  }
 }
 
-.dir, .slash {
+.path {
   margin-right: 0.5rem;
+  cursor: pointer;
 }
