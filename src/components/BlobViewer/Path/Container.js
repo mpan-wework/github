@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { lookup } from 'mime-types';
 import styles from './Container.module.scss';
 
 const Path = (props) => {
@@ -41,6 +42,14 @@ const Path = (props) => {
     [path],
   );
 
+  const contentType = useMemo(
+    () => {
+      const parsed = lookup(path);
+      return parsed ? `(${parsed})`: '';
+    },
+    [path],
+  );
+
   return (
     <div className={styles.Container}>
       {paths.map((pathItem, i) => (
@@ -52,6 +61,7 @@ const Path = (props) => {
           {pathItem.label}
         </div>
       ))}
+      <div>{contentType}</div>
     </div>
   );
 };
