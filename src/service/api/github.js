@@ -1,53 +1,27 @@
-import store from '../../utils/store';
-
-const get = async (uri, opts = {}) => {
-  const url = /^https:/.test(uri) ? uri : `https://api.github.com${uri}`;
-  try {
-    const resp = await window.fetch(
-      url,
-      {
-        headers: {
-          Authorization: `token ${store.getItem('token')}`,
-          ...opts.headers,
-        },
-      },
-    );
-    return resp.ok ? resp.json() : null;
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-};
+import githubFetchClient from './githubFetchClient';
+import octokitClient from './octokitClient';
 
 const createGithubClient = () => {
-  const user = async (token) => {
-    return get('/user', {
-      headers: { Authorization: `token ${token}`},
-    });
-  };
+  const _octokitClient = octokitClient;
+  const _githubFetchClient = githubFetchClient;
 
-  const orgs = async () => {
-    return get('/user/orgs');
-  };
+  const { user } = _octokitClient;
 
-  const tree = async (owner, repo, branch, recursive = true) => {
-    return get(`/repos/${owner}/${repo}/git/trees/${branch}${recursive ? '?recursive=1' : ''}`);
-  };
+  const {
+    get,
+    orgs,
+    tree,
+    branches,
+  } = _githubFetchClient;
 
-  const blob = async (blobUrl) => {
-    return get(blobUrl);
-  };
+  const blob = async (blobUrl) => get(blobUrl);
 
-  const branches = async (owner, repo) => {
-    return get(`/repos/${owner}/${repo}/branches`);
-  }
-
-  const searchQuery = (keywords = [], scopes = []) => {
+  const _searchQuery = (keywords = [], scopes = []) => {
     return [...keywords, ...scopes].join('+');
   };
 
   const qrepos = async (keyword, scope) => {
-    const q = searchQuery(
+    const q = _searchQuery(
       [keyword],
       [
         'in:name',
