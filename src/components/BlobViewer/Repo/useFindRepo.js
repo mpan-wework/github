@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import githubClient from '../../../service/api/github';
 import useAsyncMemo from '../../shared/useAsyncMemo';
+import useAsyncDebouncedCallback from '../../shared/useAsyncDebounceCallback';
 
 const useFindRepo = (props) => {
   const { user } = props;
@@ -40,13 +41,23 @@ const useFindRepo = (props) => {
     [],
   );
 
-  const loadOwnerOptions = useCallback(
+  const loadOwnerOptions = useAsyncDebouncedCallback(
     async (inputValue) => {
-      return ownerOptions.filter(
-        (ownerItem) =>
-          inputValue.trim() === '' ||
-          ownerItem.value.indexOf(inputValue.toLowerCase()) > -1
+      const data = await githubClient.qOwners(inputValue);
+      const owners = data.items.map(
+        (ownerItem) => ({
+          label: ownerItem.login,
+          value: ownerItem.login.toLowerCase(),
+          data: ownerItem,
+        }),
       );
+      return ownerOptions
+        .filter(
+          (ownerItem) =>
+            inputValue.trim() === '' ||
+            ownerItem.value.indexOf(inputValue.toLowerCase()) > -1,
+        )
+        .concat(owners);
     },
     [ownerOptions],
   );
@@ -60,7 +71,7 @@ const useFindRepo = (props) => {
     [],
   );
 
-  const loadRepoOptions = useCallback(
+  const loadRepoOptions = useAsyncDebouncedCallback(
     async (inputValue) => {
       if (!owner) {
         return [];
@@ -70,7 +81,7 @@ const useFindRepo = (props) => {
         ? { user: owner.data.login }
         : { org: owner.data.login };
 
-      const data = await githubClient.qrepos(inputValue, scope);
+      const data = await githubClient.qRepos(inputValue, scope);
       return data.items.map((repoItem) => ({
         label: repoItem.name,
         value: repoItem.name,
