@@ -64,6 +64,15 @@
         ]
       }
     ],
+    "no-underscore-dangle": [
+      "off"
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "^_"
+      }
+    ],
     "react/prop-types": [
       "off"
     ]
