@@ -1,38 +1,76 @@
-import React, { useEffect, useRef } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import fileType from 'file-type';
-import styles from './Container.module.scss';
+import { lookup } from 'mime-types';
 import useAsyncMemo from '../../shared/useAsyncMemo';
+import useAsyncEffect from '../../shared/useAsyncEffect';
 import useCodeMirror from './useCodeMirror';
+import githubClient from '../../../service/api/github';
+import styles from './Container.module.scss';
 
 const Blob = (props) => {
   const { blob = {} } = props;
+  const [content, setContent] = useState(null);
 
-  const textArea = useRef(null);
+  const contentType = useMemo(
+    () => {
+      if (!blob.path) {
+        return '';
+      }
 
-  const [{ codeMirrorRef }] = useCodeMirror({ textArea });
+      return lookup(blob.path);
+    },
+    [blob],
+  );
+
+  useAsyncEffect(
+    async () => {
+      if (/image/.test(contentType)) {
+        setContent(null);
+      } else if (!blob.url) {
+        setContent(null);
+      } else {
+        const data = await githubClient.blob(blob.url);
+        if (data.content) {
+          setContent(data.content);
+        } else {
+          setContent(null);
+        }
+      }
+    },
+    [contentType, blob],
+  );
+
+  const textAreaRef = useRef(null);
+  const [{ codeMirrorRef }] = useCodeMirror({ textAreaRef });
 
   const mimeType = useAsyncMemo(
     async () => {
-      if (!blob.content) {
-        return null;
+      if (!content) {
+        return '';
       }
 
-      return fileType.fromBuffer(Buffer.from(blob.content, 'base64'));
+      return fileType.fromBuffer(Buffer.from(content, 'base64'));
     },
-    [blob],
-    null,
+    [content],
+    '',
   );
 
   useEffect(
     () => {
-      if (blob.type !== 'blob' || !blob.content) {
+      if (!content) {
         return;
       }
 
-      const code = window.atob(blob.content);
-      codeMirrorRef.current && codeMirrorRef.current.getDoc().setValue(code);
+      content
+        && codeMirrorRef.current
+        && codeMirrorRef.current.getDoc().setValue(window.atob(content));
     },
-    [codeMirrorRef, blob],
+    [codeMirrorRef, content],
   );
 
   return (
@@ -40,9 +78,9 @@ const Blob = (props) => {
       <div>{JSON.stringify(mimeType)}</div>
       <div
         className={styles.CodeMirror}
-        style={blob.type === 'blob' && !mimeType ? {} : { display: 'none'}}
+        style={content ? {} : { display: 'none'}}
       >
-        <textarea className={styles.textArea} ref={textArea} />
+        <textarea className={styles.textArea} ref={textAreaRef} />
       </div>
     </main>
   );

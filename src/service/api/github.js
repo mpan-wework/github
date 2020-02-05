@@ -1,5 +1,6 @@
 import githubFetchClient from './githubFetchClient';
 import octokitClient from './octokitClient';
+import cache from '../../utils/cache';
 
 const createGithubClient = () => {
   const _octokitClient = octokitClient;
@@ -16,7 +17,15 @@ const createGithubClient = () => {
     qRepos,
   } = _githubFetchClient;
 
-  const blob = async (blobUrl) => get(blobUrl);
+  const blob = async (blobUrl) => {
+    if (cache.hasItem(blobUrl)) {
+      return JSON.parse(cache.getItem(blobUrl));
+    }
+
+    const body = await get(blobUrl);
+    cache.setItem(blobUrl, JSON.stringify(body));
+    return body;
+  };
 
   return {
     user,

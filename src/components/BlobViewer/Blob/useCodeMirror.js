@@ -1,18 +1,16 @@
 import { useEffect, useRef } from 'react';
 import CodeMirror from 'codemirror';
 
-const useCodeMirror = (props) => {
-  const { textArea } = props;
-
+const useCodeMirror = ({ textAreaRef }) => {
   const codeMirrorRef = useRef(null);
 
   useEffect(
     () => {
-      if (codeMirrorRef.current && !textArea.current) {
+      if (codeMirrorRef.current && !textAreaRef.current) {
         return;
       }
       codeMirrorRef.current = CodeMirror.fromTextArea(
-        textArea.current,
+        textAreaRef.current,
         {
           mode: 'javascript',
           theme: 'the-matrix',
@@ -24,7 +22,7 @@ const useCodeMirror = (props) => {
         },
       );
     },
-    [textArea, codeMirrorRef],
+    [textAreaRef, codeMirrorRef],
   );
 
   return [
