@@ -1,8 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Blob from '../components/BlobViewer/Blob/Container';
 import NavBar from '../components/BlobViewer/NavBar/Container';
 import Repo from '../components/BlobViewer/Repo/Container';
@@ -18,30 +14,24 @@ const BlobViewer = () => {
   const [tree, setTree] = useState(null);
   const [blob, setBlob] = useState(undefined);
 
-  useEffect(
-    () => {
-      if (!user) {
-        setRepoInfo(null);
-        setTree(null);
-        setBlob(undefined);
-      }
-    },
-    [user],
-  );
+  useEffect(() => {
+    if (!user) {
+      setRepoInfo(null);
+      setTree(null);
+      setBlob(undefined);
+    }
+  }, [user]);
 
-  useAsyncEffect(
-    async () => {
-      if (repoInfo) {
-        const data = await githubClient.tree(
-          repoInfo.owner.value,
-          repoInfo.repo.value,
-          repoInfo.branch.value,
-        );
-        setTree(data);
-      }
-    },
-    [repoInfo],
-  );
+  useAsyncEffect(async () => {
+    if (repoInfo) {
+      const data = await githubClient.tree(
+        repoInfo.owner.value,
+        repoInfo.repo.value,
+        repoInfo.branch.value,
+      );
+      setTree(data);
+    }
+  }, [repoInfo]);
 
   const visitPath = useCallback(
     (path) => {
@@ -62,24 +52,12 @@ const BlobViewer = () => {
   return (
     <div className={styles.BlobViewer}>
       <div className={styles.sidebarWrapper}>
-        <SideBar
-          tree={tree}
-          blob={blob}
-          visitPath={visitPath}
-        />
+        <SideBar tree={tree} blob={blob} visitPath={visitPath} />
       </div>
       <div className={styles.contentWrapper}>
-        <NavBar
-          loginCallback={setUser}
-        />
-        <Repo
-          user={user}
-          onRepoInfoChange={setRepoInfo}
-        />
-        <Path
-          path={blob ? blob.path : ''}
-          visitPath={visitPath}
-        />
+        <NavBar loginCallback={setUser} />
+        <Repo user={user} onRepoInfoChange={setRepoInfo} />
+        <Path path={blob ? blob.path : ''} visitPath={visitPath} />
         <Blob blob={blob} />
       </div>
     </div>

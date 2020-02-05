@@ -15,25 +15,19 @@ const useLogin = (props) => {
     [setToken],
   );
 
-  const login = useCallback(
-    async () => {
-      const user = await githubClient.user(token);
-      if (user) {
-        store.setItem('token', token);
-        setOwner(user);
-        setTimeout(() => loginCallback(user), 0);
-      }
-    },
-    [token, setOwner, loginCallback],
-  );
+  const login = useCallback(async () => {
+    const user = await githubClient.user(token);
+    if (user) {
+      store.setItem('token', token);
+      setOwner(user);
+      setTimeout(() => loginCallback(user), 0);
+    }
+  }, [token, setOwner, loginCallback]);
 
-  const logout = useCallback(
-    () => {
-      setOwner(null);
-      setTimeout(() => loginCallback(null), 0);
-    },
-    [setOwner, loginCallback],
-  );
+  const logout = useCallback(() => {
+    setOwner(null);
+    setTimeout(() => loginCallback(null), 0);
+  }, [setOwner, loginCallback]);
 
   return [
     {

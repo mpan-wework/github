@@ -12,7 +12,7 @@ const createOctokitClient = () => {
     const resp = await _octokit.request(url);
     if (resp.status < 200 || resp.status >= 300) {
       console.error(resp);
-      return null
+      return null;
     }
     return resp.data;
   };

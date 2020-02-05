@@ -10,6 +10,8 @@
 
 .sidebarWrapper {
   height: 100%;
+  z-index: 999;
+  background-color: $back-color;
 }
 
 .contentWrapper {

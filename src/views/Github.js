@@ -13,7 +13,7 @@ const Github = () => {
             render={(props) => <route.component {...props} />}
           />
         ))}
-        <Redirect from="*" to="/blob-viewer/"/>
+        <Redirect from="*" to="/blob-viewer/" />
       </Switch>
     </HashRouter>
   );

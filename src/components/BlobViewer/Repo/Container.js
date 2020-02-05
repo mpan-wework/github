@@ -8,13 +8,7 @@ const Repo = (props) => {
   const { user, onRepoInfoChange } = props;
 
   const [
-    {
-      owner,
-      ownerOptions,
-      repo,
-      branch,
-      branchOptions,
-    },
+    { owner, ownerOptions, repo, branch, branchOptions },
     {
       loadOwnerOptions,
       handleOwnerChange,
@@ -25,21 +19,21 @@ const Repo = (props) => {
     },
   ] = useFindRepo({ user });
 
-  useEffect(
-    () => {
-      if (!owner || !repo || !branch) {
-        return;
-      }
+  useEffect(() => {
+    if (!owner || !repo || !branch) {
+      return;
+    }
 
-      setTimeout(
-        () => onRepoInfoChange({
-          owner, repo, branch,
+    setTimeout(
+      () =>
+        onRepoInfoChange({
+          owner,
+          repo,
+          branch,
         }),
-        0,
-      );
-    },
-    [onRepoInfoChange, owner, repo, branch],
-  );
+      0,
+    );
+  }, [onRepoInfoChange, owner, repo, branch]);
 
   const [styleProps] = useReactSelectStyle();
 

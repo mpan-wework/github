@@ -13,25 +13,31 @@ const useReactSelectStyle = () => {
       control: (provided) => ({
         ...provided,
         ...colors,
-        borderColor: '#4af626'
+        borderColor: '#4af626',
       }),
       dropdownIndicator: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       indicatorsContainer: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       indicatorSeparator: (provided) => ({
-        ...provided, visibility: 'hidden',
+        ...provided,
+        visibility: 'hidden',
       }),
       input: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       loadingIndicator: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       loadingMessage: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       menu: (provided) => ({
         ...provided,
@@ -43,22 +49,28 @@ const useReactSelectStyle = () => {
         ...colors,
       }),
       menuPortal: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       noOptionsMessage: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       option: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       placeholder: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       singleValue: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
       valueContainer: (provided) => ({
-        ...provided, ...colors,
+        ...provided,
+        ...colors,
       }),
     }),
     [colors],

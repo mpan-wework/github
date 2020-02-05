@@ -2,10 +2,11 @@ const createCache = () => {
   const _r = (...args) => window.sessionStorage.getItem(...args);
   const quota = 1024 * 1024 * 4; // 5MB actually
   const _w = (...args) => {
-    const used = unescape(encodeURIComponent(JSON.stringify(sessionStorage))).length;
+    const used = unescape(encodeURIComponent(JSON.stringify(sessionStorage)))
+      .length;
     if (used > quota) {
       window.sessionStorage.clear();
-    };
+    }
     window.sessionStorage.setItem(...args);
   };
   const _d = (...args) => window.sessionStorage.removeItem(...args);
@@ -19,7 +20,7 @@ const createCache = () => {
   };
 
   const hasItem = (key) => {
-    const exp  = _r(_expKey(key));
+    const exp = _r(_expKey(key));
     if (!exp) {
       return false;
     }
@@ -33,9 +34,7 @@ const createCache = () => {
   };
 
   const getItem = (key, value = null) => {
-    return hasItem(key)
-      ? (_r(_objKey(key)) || value)
-      : value;
+    return hasItem(key) ? _r(_objKey(key)) || value : value;
   };
 
   const setItem = (key, value, expires = _hour) => {

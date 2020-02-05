@@ -5,50 +5,45 @@ import styles from './Container.module.scss';
 const Path = (props) => {
   const { path, visitPath } = props;
 
-  const handlePathClick = useCallback(
-    ({ full }) => () => visitPath(full),
-    [visitPath],
-  );
+  const handlePathClick = useCallback(({ full }) => () => visitPath(full), [
+    visitPath,
+  ]);
 
-  const paths = useMemo(
-    () => {
-      const pathItems = [{
+  const paths = useMemo(() => {
+    const pathItems = [
+      {
         label: '/',
         full: '/',
-      }];
+      },
+    ];
 
-      if (!path) {
-        return pathItems;
-      }
-
-      let base = '';
-      path.split('/').forEach((pathItem) => {
-        pathItems.push(
-          {
-            label: pathItem,
-            full: `${base}${pathItem}`,
-          },
-          {
-            label: '/',
-            full: `${base}${pathItem}`,
-          },
-        );
-        base = `${base}${pathItem}/`
-      });
-      pathItems.pop();
-
+    if (!path) {
       return pathItems;
-    },
-    [path],
-  );
+    }
 
-  const contentType = useMemo(
-    () => {
-      const parsed = lookup(path);
-      return parsed ? `(${parsed})`: '';
-    },
-    [path],
-  );
+    let base = '';
+    path.split('/').forEach((pathItem) => {
+      pathItems.push(
+        {
+          label: pathItem,
+          full: `${base}${pathItem}`,
+        },
+        {
+          label: '/',
+          full: `${base}${pathItem}`,
+        },
+      );
+      base = `${base}${pathItem}/`;
+    });
+    pathItems.pop();
+
+    return pathItems;
+  }, [path]);
+
+  const contentType = useMemo(() => {
+    const parsed = lookup(path);
+    return parsed ? `(${parsed})` : '';
+  }, [path]);
 
   return (
     <div className={styles.Container}>

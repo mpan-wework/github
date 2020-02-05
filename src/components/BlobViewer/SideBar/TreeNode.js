@@ -4,15 +4,15 @@ import styles from './TreeNode.module.scss';
 const TreeNode = (props) => {
   const { tree, currentPath, visitPath, className } = props;
 
-  const onBlobClick = useCallback(
-    () => visitPath(tree.path),
-    [tree, visitPath],
-  );
+  const onBlobClick = useCallback(() => visitPath(tree.path), [
+    tree,
+    visitPath,
+  ]);
 
-  const isCurrent = useMemo(
-    () => currentPath.indexOf(tree.path) === -1,
-    [currentPath, tree],
-  );
+  const isCurrent = useMemo(() => currentPath.indexOf(tree.path) === -1, [
+    currentPath,
+    tree,
+  ]);
 
   return (
     <>
@@ -20,10 +20,10 @@ const TreeNode = (props) => {
         className={[
           className,
           styles.TreeNode,
-          isCurrent ? '':  styles.current,
+          isCurrent ? '' : styles.current,
         ].join(' ')}
         onClick={onBlobClick}
-        style={{paddingLeft: `${tree.depth}rem`}}
+        style={{ paddingLeft: `${tree.depth}rem` }}
       >
         {tree.name}
       </div>
@@ -36,7 +36,7 @@ const TreeNode = (props) => {
         />
       ))}
     </>
-  )
-}
+  );
+};
 
 export default TreeNode;
