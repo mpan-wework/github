@@ -8,14 +8,7 @@ const createGithubClient = () => {
 
   const { user } = _octokitClient;
 
-  const {
-    get,
-    orgs,
-    tree,
-    branches,
-    qOwners,
-    qRepos,
-  } = _githubFetchClient;
+  const { get, orgs, tree, branches, qOwners, qRepos } = _githubFetchClient;
 
   const blob = async (blobUrl) => {
     if (cache.hasItem(blobUrl)) {

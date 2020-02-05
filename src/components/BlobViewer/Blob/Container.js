@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import fileType from 'file-type';
 import { lookup } from 'mime-types';
 import useAsyncMemo from '../../shared/useAsyncMemo';
@@ -16,34 +11,28 @@ const Blob = (props) => {
   const { blob = {} } = props;
   const [content, setContent] = useState(null);
 
-  const contentType = useMemo(
-    () => {
-      if (!blob.path) {
-        return '';
-      }
+  const contentType = useMemo(() => {
+    if (!blob.path) {
+      return '';
+    }
 
-      return lookup(blob.path);
-    },
-    [blob],
-  );
+    return lookup(blob.path);
+  }, [blob]);
 
-  useAsyncEffect(
-    async () => {
-      if (/image/.test(contentType)) {
-        setContent(null);
-      } else if (!blob.url) {
-        setContent(null);
+  useAsyncEffect(async () => {
+    if (/image/.test(contentType)) {
+      setContent(null);
+    } else if (!blob.url) {
+      setContent(null);
+    } else {
+      const data = await githubClient.blob(blob.url);
+      if (data.content) {
+        setContent(data.content);
       } else {
-        const data = await githubClient.blob(blob.url);
-        if (data.content) {
-          setContent(data.content);
-        } else {
-          setContent(null);
-        }
+        setContent(null);
       }
-    },
-    [contentType, blob],
-  );
+    }
+  }, [contentType, blob]);
 
   const textAreaRef = useRef(null);
   const [{ codeMirrorRef }] = useCodeMirror({ textAreaRef });
@@ -60,25 +49,22 @@ const Blob = (props) => {
     '',
   );
 
-  useEffect(
-    () => {
-      if (!content) {
-        return;
-      }
+  useEffect(() => {
+    if (!content) {
+      return;
+    }
 
-      content
-        && codeMirrorRef.current
-        && codeMirrorRef.current.getDoc().setValue(window.atob(content));
-    },
-    [codeMirrorRef, content],
-  );
+    content &&
+      codeMirrorRef.current &&
+      codeMirrorRef.current.getDoc().setValue(window.atob(content));
+  }, [codeMirrorRef, content]);
 
   return (
     <main className={styles.Container}>
       <div>{JSON.stringify(mimeType)}</div>
       <div
         className={styles.CodeMirror}
-        style={content ? {} : { display: 'none'}}
+        style={content ? {} : { display: 'none' }}
       >
         <textarea className={styles.textArea} ref={textAreaRef} />
       </div>

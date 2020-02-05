@@ -75,6 +75,7 @@
     ],
     "react/prop-types": [
       "off"
-    ]
+    ],
+    "prettier/prettier": "warn"
   }
 }

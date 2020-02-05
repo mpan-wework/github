@@ -8,13 +8,10 @@ const useAsyncDebouncedCallback = (fn, deps = [], waitTime = 1000) => {
       clearTimeout(task);
       return new Promise((resolve) => {
         setTask(
-          setTimeout(
-            async () => {
-              const ret = await callback(...args);
-              resolve(ret);
-            },
-            waitTime,
-          ),
+          setTimeout(async () => {
+            const ret = await callback(...args);
+            resolve(ret);
+          }, waitTime),
         );
       });
     },
