@@ -9,14 +9,31 @@
 }
 
 .sidebarWrapper {
-  height: 100%;
+  flex: 0 0 12.5rem;
   z-index: 999;
   background-color: $back-color;
 }
 
 .contentWrapper {
-  height: 100%;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+}
+
+.navBar {
+  flex: 0 0 3.125rem;
+}
+
+.repo {
+  flex: 0 0 3.125rem;
+}
+
+.path {
+  flex: 0 0 3.125rem;
+}
+
+.blob {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: scroll;
 }

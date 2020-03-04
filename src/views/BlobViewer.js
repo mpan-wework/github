@@ -55,10 +55,18 @@ const BlobViewer = () => {
         <SideBar tree={tree} blob={blob} visitPath={visitPath} />
       </div>
       <div className={styles.contentWrapper}>
-        <NavBar loginCallback={setUser} />
-        <Repo user={user} onRepoInfoChange={setRepoInfo} />
-        <Path path={blob ? blob.path : ''} visitPath={visitPath} />
-        <Blob blob={blob} />
+        <div className={styles.navBar}>
+          <NavBar loginCallback={setUser} />
+        </div>
+        <div className={styles.repo}>
+          <Repo user={user} onRepoInfoChange={setRepoInfo} />
+        </div>
+        <div className={styles.path}>
+          <Path path={blob ? blob.path : ''} visitPath={visitPath} />
+        </div>
+        <div className={styles.blob}>
+          <Blob blob={blob} />
+        </div>
       </div>
     </div>
   );
